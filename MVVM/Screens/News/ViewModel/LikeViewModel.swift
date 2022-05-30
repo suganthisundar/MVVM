@@ -35,7 +35,7 @@ class LikeViewModel {
             dispatchGroup.enter()
             
         apiService.fetchLikes(urlstring) { [weak self] (success, result, error) in
-            self?.isLoading = false
+           
             if let error = error {
             } else {
                 
@@ -49,7 +49,7 @@ class LikeViewModel {
             dispatchGroup.enter()
             
         apiService.fetchComments(commenturl) { [weak self] (success, result, error) in
-            self?.isLoading = false
+            
             if let error = error {
             } else {
                 
@@ -62,7 +62,7 @@ class LikeViewModel {
         }
             /// `Notify Main thread`
             dispatchGroup.notify(queue: .main) {
-                self.isLoading = true
+                self.isLoading = false
             }
         
     }
