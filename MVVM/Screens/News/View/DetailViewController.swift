@@ -56,8 +56,8 @@ class DeatilViewController: UIViewController,WKNavigationDelegate {
         let finalurl = urlstr.replaceString(target: Strings.slash, withString: Strings.dash)
         let likeurl = finalurl.combainString(urlstring: finalurl, type: Strings.likes)
         let commenturl = finalurl.combainString(urlstring: finalurl, type: Strings.comments)
-        viewModel.LikeFetch(urlstring: likeurl)
-        viewModel.CommentFetch(urlstring: commenturl)
+        viewModel.LikeFetch(urlstring: likeurl, commenturl: commenturl)
+       
     }
     // MARK: - Setup Webview
     func loadWebviewUrl()  {

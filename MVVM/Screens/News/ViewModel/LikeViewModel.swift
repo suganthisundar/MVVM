@@ -28,8 +28,12 @@ class LikeViewModel {
         self.apiService = apiService
     }
     
-    func LikeFetch(urlstring: String) {
+    func LikeFetch(urlstring: String, commenturl: String) {
         self.isLoading = true
+            let dispatchGroup = DispatchGroup()
+ 
+            dispatchGroup.enter()
+            
         apiService.fetchLikes(urlstring) { [weak self] (success, result, error) in
             self?.isLoading = false
             if let error = error {
@@ -38,13 +42,13 @@ class LikeViewModel {
                 print(result);
                 self!.like = String(result)
                 self?.processFetchedLikes()
+                dispatchGroup.leave()
             }
         }
-        
-    }
-    
-    func CommentFetch(urlstring: String) {
-        apiService.fetchComments(urlstring) { [weak self] (success, result, error) in
+            
+            dispatchGroup.enter()
+            
+        apiService.fetchComments(commenturl) { [weak self] (success, result, error) in
             self?.isLoading = false
             if let error = error {
             } else {
@@ -52,11 +56,17 @@ class LikeViewModel {
                 print(result);
                 
                 self!.comment = String(result)
-                self?.processFetchedLikes()
+                self?.processFetchedComments()
+                dispatchGroup.leave()
             }
         }
+            /// `Notify Main thread`
+            dispatchGroup.notify(queue: .main) {
+                self.isLoading = true
+            }
         
     }
+    
    
     
     func processFetchedLikes() -> String {
